@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://df5x4jk7yk7na"]
+
+[ext_resource type="Texture2D" uid="uid://diipf4chebkym" path="res://assets/flappy bird - sprites/medal_silver.png" id="1_e2vyg"]
+[ext_resource type="Script" path="res://gdscripts/test_pridiction.gd" id="2_rpi56"]
+
+[node name="Sprite2D" type="Sprite2D"]
+texture = ExtResource("1_e2vyg")
+script = ExtResource("2_rpi56")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://dnyf2p3qqkpkd"]
+
+[ext_resource type="Texture2D" uid="uid://b1odn8mqf7cik" path="res://assets/flappy bird - sprites/background_day.png" id="1_nehfc"]
+[ext_resource type="PackedScene" uid="uid://duf7r6frchwjh" path="res://scenes/bird.tscn" id="2_8a6a0"]
+[ext_resource type="Script" path="res://gdscripts/ColorRect.gd" id="3_2im8w"]
+[ext_resource type="Script" path="res://gdscripts/ColorRect2.gd" id="4_wme4i"]
+[ext_resource type="PackedScene" uid="uid://df5x4jk7yk7na" path="res://scenes/test_pridiction.tscn" id="5_kbm6t"]
+
+[node name="gameStage" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.329412, 0.752941, 0.788235, 1)
+script = ExtResource("3_2im8w")
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_right = 1152.0
+offset_bottom = 648.0
+color = Color(0.392157, 0.878431, 0.458824, 1)
+script = ExtResource("4_wme4i")
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_mirroring = Vector2(1152, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+position = Vector2(0, -1024)
+scale = Vector2(8, 8)
+texture = ExtResource("1_nehfc")
+centered = false
+
+[node name="Bird" parent="." instance=ExtResource("2_8a6a0")]
+scale = Vector2(2.53472, 2.53125)
+
+[node name="Camera2D" type="Camera2D" parent="Bird"]
+
+[node name="Test" parent="." instance=ExtResource("5_kbm6t")]

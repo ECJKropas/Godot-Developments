@@ -1,0 +1,71 @@
+[gd_scene load_steps=13 format=3 uid="uid://duf7r6frchwjh"]
+
+[ext_resource type="Script" path="res://gdscripts/Bird.gd" id="1_0k755"]
+[ext_resource type="Texture2D" uid="uid://d3cx8td5uy7ft" path="res://assets/flappy bird - sprites/bird_blue_0.png" id="2_in81y"]
+[ext_resource type="Texture2D" uid="uid://cu7e468rtxbtl" path="res://assets/flappy bird - sprites/bird_blue_1.png" id="3_tnh6h"]
+[ext_resource type="Texture2D" uid="uid://cxpn61c2nb5at" path="res://assets/flappy bird - sprites/bird_blue_2.png" id="4_sulfk"]
+[ext_resource type="Texture2D" uid="uid://bcfwx2ld5iocu" path="res://assets/flappy bird - sprites/bird_orange_0.png" id="5_76ktp"]
+[ext_resource type="Texture2D" uid="uid://ct0ts2wxggpjy" path="res://assets/flappy bird - sprites/bird_orange_1.png" id="6_h8ij7"]
+[ext_resource type="Texture2D" uid="uid://b3anh3r77kwwg" path="res://assets/flappy bird - sprites/bird_orange_2.png" id="7_b73k1"]
+[ext_resource type="Texture2D" uid="uid://cch3gr0bjlh55" path="res://assets/flappy bird - sprites/bird_red_0.png" id="8_mqydv"]
+[ext_resource type="Texture2D" uid="uid://bb7ovcw57okt1" path="res://assets/flappy bird - sprites/bird_red_1.png" id="9_tyumv"]
+[ext_resource type="Texture2D" uid="uid://bitoaer1c4lox" path="res://assets/flappy bird - sprites/bird_red_2.png" id="10_vbjn6"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ks3bp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_in81y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tnh6h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_sulfk")
+}],
+"loop": true,
+"name": &"blue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_76ktp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_h8ij7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_b73k1")
+}],
+"loop": true,
+"name": &"orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_mqydv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_tyumv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_vbjn6")
+}],
+"loop": true,
+"name": &"red",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_juxr1"]
+radius = 7.0
+
+[node name="Bird" type="CharacterBody2D"]
+script = ExtResource("1_0k755")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ks3bp")
+animation = &"red"
+autoplay = "red"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_juxr1")

@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://145jlfm1qryv"]
+
+[ext_resource type="Script" path="res://gdscripts/Pair.gd" id="1_t0gs0"]
+[ext_resource type="PackedScene" uid="uid://drk41rxar2tg" path="res://scenes/obstacles.tscn" id="2_rlqqb"]
+
+[node name="Pair" type="Node2D"]
+script = ExtResource("1_t0gs0")
+
+[node name="Obstacle1" parent="." instance=ExtResource("2_rlqqb")]
+
+[node name="Obstacle2" parent="." instance=ExtResource("2_rlqqb")]
+position = Vector2(13, 0)
+rotation = 3.14159
