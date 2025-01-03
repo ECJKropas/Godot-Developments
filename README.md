@@ -32,7 +32,7 @@
 
 ## 许可证
 
-本项目采用 [MIT 许可证](https://github.com/ECJKropas/Godot-Developments/blob/master/LICENSE)。
+本项目采用 [GNU AFFERO GENERAL PUBLIC LICENSE](https://github.com/ECJKropas/Godot-Developments/blob/master/LICENSE)。
 
 ## 联系
 
