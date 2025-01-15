@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvubks3olb08q"]
+
+[ext_resource type="PackedScene" uid="uid://edf2ji53v842" path="res://tscns/sofa.tscn" id="1_3umlp"]
+[ext_resource type="PackedScene" uid="uid://db2qfvs07u22r" path="res://tscns/handRadio.tscn" id="2_23ben"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="Sofa" parent="." instance=ExtResource("1_3umlp")]
+
+[node name="Node3D" parent="." instance=ExtResource("2_23ben")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.792, 0.492, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.436286, -0.0865351, 0.895637, -0.00220436, 0.995259, 0.0972342, -0.899806, -0.0443962, 0.434027, 0.462006, 0.88006, 0.772034)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
+transform = Transform3D(0.436286, -0.00220436, -0.899805, -0.0865351, 0.995259, -0.0443962, 0.895637, 0.0972342, 0.434027, 0, 0, 0)

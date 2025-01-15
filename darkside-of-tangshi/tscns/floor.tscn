@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://djsmjwk4ip6r4"]
+
+[sub_resource type="MeshLibrary" id="MeshLibrary_br3lx"]
+
+[node name="Node3D" type="GridMap"]
+mesh_library = SubResource("MeshLibrary_br3lx")

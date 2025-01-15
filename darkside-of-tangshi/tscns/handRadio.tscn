@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://db2qfvs07u22r"]
+
+[ext_resource type="PackedScene" uid="uid://djrxlmy8r3vlg" path="res://assets/hand-radio/source/hand raido.glb" id="1_7ujh8"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ei25f"]
+size = Vector3(1.54053, 0.370117, 0.874023)
+
+[node name="Node3D" type="CharacterBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, -0.0797607, 0.00493164, -0.00629883)
+shape = SubResource("BoxShape3D_ei25f")
+
+[node name="hand raido" parent="." instance=ExtResource("1_7ujh8")]
+transform = Transform3D(0.0608569, -0.998146, 0, 0.998146, 0.0608569, 0, 0, 0, 1, 0, 0, 0)
