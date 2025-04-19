@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw67x4hwt1vcr"]
+
+[ext_resource type="Texture2D" uid="uid://dtlo0j60k0yxi" path="res://assets/images/splash_screen.jpeg" id="1_rcqe5"]
+[ext_resource type="Script" path="res://scenes/splash_screen/texture_rect.gd" id="2_qhw81"]
+
+[node name="SplashScreen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1152.0
+offset_bottom = 648.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_rcqe5")
+expand_mode = 3
+script = ExtResource("2_qhw81")
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -162.0
+offset_top = -27.0
+offset_right = 158.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(2.91304, 0.961722)
