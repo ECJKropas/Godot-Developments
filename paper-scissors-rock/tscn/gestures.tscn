@@ -1,0 +1,60 @@
+[gd_scene load_steps=6 format=3 uid="uid://dn4yvvsgig2mu"]
+
+[ext_resource type="Texture2D" uid="uid://bcfdlk65win1i" path="res://gui.svg" id="1_2g4jg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xs4ip"]
+atlas = ExtResource("1_2g4jg")
+region = Rect2(0, 0, 264, 264)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uad0w"]
+atlas = ExtResource("1_2g4jg")
+region = Rect2(264, 0, 264, 264)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6bxxp"]
+atlas = ExtResource("1_2g4jg")
+region = Rect2(528, 0, 264, 264)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0v4gh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs4ip")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uad0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bxxp")
+}],
+"loop": true,
+"name": &"Changing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xs4ip")
+}],
+"loop": true,
+"name": &"Paper",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uad0w")
+}],
+"loop": true,
+"name": &"Rock",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6bxxp")
+}],
+"loop": true,
+"name": &"Scissors",
+"speed": 5.0
+}]
+
+[node name="Gestures" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_0v4gh")
+animation = &"Scissors"
