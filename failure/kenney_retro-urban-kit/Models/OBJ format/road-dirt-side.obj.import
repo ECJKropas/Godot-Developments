@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://de5lrgm7cty0s"
+path="res://.godot/imported/road-dirt-side.obj-fcafd1f78dc38b908ed198b92aa3c096.mesh"
+
+[deps]
+
+files=["res://.godot/imported/road-dirt-side.obj-fcafd1f78dc38b908ed198b92aa3c096.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/road-dirt-side.obj"
+dest_files=["res://.godot/imported/road-dirt-side.obj-fcafd1f78dc38b908ed198b92aa3c096.mesh", "res://.godot/imported/road-dirt-side.obj-fcafd1f78dc38b908ed198b92aa3c096.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bfl4foxnx07ta"
+path="res://.godot/imported/wall-a-roof-slant-detailed.obj-1ab632f6e4f23efa5e12d4bf5625b88c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wall-a-roof-slant-detailed.obj-1ab632f6e4f23efa5e12d4bf5625b88c.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/wall-a-roof-slant-detailed.obj"
+dest_files=["res://.godot/imported/wall-a-roof-slant-detailed.obj-1ab632f6e4f23efa5e12d4bf5625b88c.mesh", "res://.godot/imported/wall-a-roof-slant-detailed.obj-1ab632f6e4f23efa5e12d4bf5625b88c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

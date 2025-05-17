@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bui1vnttvk3aw"
+path="res://.godot/imported/detail-awning-small.obj-337b58f052e2af2715a311a570a726b0.mesh"
+
+[deps]
+
+files=["res://.godot/imported/detail-awning-small.obj-337b58f052e2af2715a311a570a726b0.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/detail-awning-small.obj"
+dest_files=["res://.godot/imported/detail-awning-small.obj-337b58f052e2af2715a311a570a726b0.mesh", "res://.godot/imported/detail-awning-small.obj-337b58f052e2af2715a311a570a726b0.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

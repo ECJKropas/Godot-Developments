@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://diucrnoauyg6a"
+path="res://.godot/imported/wall-fence.obj-551c7ff77515f58ef4b0f3895405262f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wall-fence.obj-551c7ff77515f58ef4b0f3895405262f.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/wall-fence.obj"
+dest_files=["res://.godot/imported/wall-fence.obj-551c7ff77515f58ef4b0f3895405262f.mesh", "res://.godot/imported/wall-fence.obj-551c7ff77515f58ef4b0f3895405262f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

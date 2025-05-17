@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c8bdex2r8cm03"
+path="res://.godot/imported/detail-beam.obj-90368fb20fafd5dbb6f91a9768e4d665.mesh"
+
+[deps]
+
+files=["res://.godot/imported/detail-beam.obj-90368fb20fafd5dbb6f91a9768e4d665.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/detail-beam.obj"
+dest_files=["res://.godot/imported/detail-beam.obj-90368fb20fafd5dbb6f91a9768e4d665.mesh", "res://.godot/imported/detail-beam.obj-90368fb20fafd5dbb6f91a9768e4d665.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

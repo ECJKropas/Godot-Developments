@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://csts3hir4a4m0"
+path="res://.godot/imported/grass-hill.obj-23ed0e3272b0aee3d5b1f31a02c80ed9.mesh"
+
+[deps]
+
+files=["res://.godot/imported/grass-hill.obj-23ed0e3272b0aee3d5b1f31a02c80ed9.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/grass-hill.obj"
+dest_files=["res://.godot/imported/grass-hill.obj-23ed0e3272b0aee3d5b1f31a02c80ed9.mesh", "res://.godot/imported/grass-hill.obj-23ed0e3272b0aee3d5b1f31a02c80ed9.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

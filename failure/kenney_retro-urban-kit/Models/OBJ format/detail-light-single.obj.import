@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://cpbm0srt1orkp"
+path="res://.godot/imported/detail-light-single.obj-c19bdfc60e0554f9c2d5b3e01225fb13.mesh"
+
+[deps]
+
+files=["res://.godot/imported/detail-light-single.obj-c19bdfc60e0554f9c2d5b3e01225fb13.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/detail-light-single.obj"
+dest_files=["res://.godot/imported/detail-light-single.obj-c19bdfc60e0554f9c2d5b3e01225fb13.mesh", "res://.godot/imported/detail-light-single.obj-c19bdfc60e0554f9c2d5b3e01225fb13.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

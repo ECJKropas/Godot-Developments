@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bwupgtog1gyjk"]
+
+[ext_resource type="PackedScene" uid="uid://cgxlhv5ur6wmj" path="res://kenney_retro-urban-kit/Models/GLB format/wall-a-door.glb" id="1_hyvai"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pp2u4"]
+
+[node name="Node3D" type="StaticBody3D"]
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="wall-a-door2" parent="Marker3D" instance=ExtResource("1_hyvai")]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_pp2u4")

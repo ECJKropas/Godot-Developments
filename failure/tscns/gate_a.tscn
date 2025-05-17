@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7evjm6oyr4hu"]
+
+[ext_resource type="PackedScene" uid="uid://dtsnv6rqg6kmg" path="res://kenney_retro-urban-kit/Models/GLB format/wall-a-flat-painted.glb" id="1_rnra7"]
+[ext_resource type="PackedScene" uid="uid://ds1njxgko4yin" path="res://kenney_retro-urban-kit/Models/GLB format/wall-a-flat-garage.glb" id="2_7tbv5"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fasft"]
+size = Vector3(1, 1, 0.02)
+
+[node name="Gate-A" type="StaticBody3D"]
+
+[node name="Marker3D" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="wall-a-flat-painted2" parent="Marker3D" instance=ExtResource("1_rnra7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+
+[node name="wall-a-flat-garage2" parent="Marker3D" instance=ExtResource("2_7tbv5")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0.5, 0, 0)
+
+[node name="Collision1" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+shape = SubResource("BoxShape3D_fasft")

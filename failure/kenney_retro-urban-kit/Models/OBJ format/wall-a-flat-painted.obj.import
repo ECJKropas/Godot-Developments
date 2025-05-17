@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dfplwq5qgyjcf"
+path="res://.godot/imported/wall-a-flat-painted.obj-761f1b4a47e201a1fe61d35619cde339.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wall-a-flat-painted.obj-761f1b4a47e201a1fe61d35619cde339.mesh"]
+
+source_file="res://kenney_retro-urban-kit/Models/OBJ format/wall-a-flat-painted.obj"
+dest_files=["res://.godot/imported/wall-a-flat-painted.obj-761f1b4a47e201a1fe61d35619cde339.mesh", "res://.godot/imported/wall-a-flat-painted.obj-761f1b4a47e201a1fe61d35619cde339.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
