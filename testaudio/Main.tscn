@@ -1,0 +1,29 @@
+[gd_scene load_steps=2 format=3 uid="uid://bnaebsmqlpl1j"]
+
+[ext_resource type="Script" uid="uid://diq68fqtls387" path="res://main.gd" id="1_glv2v"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_glv2v")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_right = 202.0
+offset_bottom = 142.0
+
+[node name="RecordButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Start Recording"
+
+[node name="PlayButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Play"
+
+[node name="StatusLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MicLevelBar" type="ProgressBar" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[connection signal="pressed" from="VBoxContainer/RecordButton" to="." method="_on_record_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
