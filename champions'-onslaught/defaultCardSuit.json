@@ -1,0 +1,13 @@
+{
+    "name": "default",
+    "heros": [
+        {
+            "name": "default",
+            "type": "default",
+            "health": 100,
+            "original_speed": 5,
+            "effects": ["cozy"],
+            "skills": ["beat"]
+        }
+    ]
+}

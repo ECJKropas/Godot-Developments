@@ -1,0 +1,9 @@
+[
+    {
+        "type": "beat",
+        "name": "beat",
+        "cd": 0,
+        "level": 0,
+        "scr": "res://scrs/all_skills/beat.gd"
+    }
+]
