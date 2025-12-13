@@ -67,6 +67,9 @@ func process_effects() -> void:
 	if scene == null:
 		return
 		
+	# 用于存储需要移除的效果
+	var effects_to_remove = []
+	
 	# 检查effects_list中的每一项
 	for effect in effects_list:
 		# 如果效果不在effect_dic中，添加新效果
@@ -74,32 +77,49 @@ func process_effects() -> void:
 			effect_dic[effect] = timer  # 记录效果初始时间
 			# 应用效果
 			if scene.has("effects_func_database") and scene.effects_func_database.has(effect):
+				print("应用新效果: ", effect, " 初始时间: ", timer)
 				scene.effects_func_database[effect].apply_effect(self)
 		else:
 			# 效果已存在，检查时间
 			var effect_start_time = effect_dic[effect]
-			# 这里假设效果持续时间需要从效果数据库获取
-			if scene.has("effects_func_database") and scene.effects_func_database.has(effect) and scene.effects_database.has(effect):
+			# 从效果数据库中获取效果属性
+			if scene.has("effects_func_database") and scene.effects_func_database.has(effect) and scene.has("effects_database"):
 				var effect_data = scene.effects_func_database[effect]
-				var effect_property:Dictionary = scene.effects_database[effect]
-				# 检查是否有持续时间属性
-				if effect_property.has("duration"):
-					var duration = effect_property["duration"]
-					if timer - effect_start_time < duration:
-						# 时间未到，继续应用效果
+				var effect_property = null
+				
+				# 在效果数据库中查找对应的效果配置
+				for effect_config in scene.effects_database:
+					if effect_config.has("type") and effect_config["type"] == effect:
+						effect_property = effect_config
+						break
+				
+				if effect_property != null:
+					# 检查是否有持续时间属性
+					if effect_property.has("duration"):
+						var duration = effect_property["duration"]
+						if timer - effect_start_time < duration:
+							# 时间未到，继续应用效果
+							if effect_property.has("effect_type") and effect_property["effect_type"] == "constant":
+								effect_data.apply_effect(self)
+						else:
+							# 时间到了，结束效果
+							print("效果结束: ", effect)
+							if effect_data.has_method("effect_end"):
+								effect_data.effect_end(self)
+							# 标记为待移除
+							effects_to_remove.append(effect)
+					else:
+						# 没有持续时间，认为是永久效果或需要手动移除
 						if effect_property.has("effect_type") and effect_property["effect_type"] == "constant":
 							effect_data.apply_effect(self)
-					else:
-						# 时间到了，结束效果
-						if effect_data.has("end_effect"):
-							effect_data.end_effect(self)
-						# 从字典中移除效果
-						effect_dic.erase(effect)
-						effects_list.erase(effect)
-				else:
-					# 没有持续时间，认为是永久效果或需要手动移除
-					if effect_data.has("effect_type") and effect_data["effect_type"] == "constant":
-						effect_data.apply_effect(self)
+	
+	# 移除过期效果
+	for effect in effects_to_remove:
+		print("移除过期效果: ", effect, " 初始时间: ", effect_dic[effect])
+		effect_dic.erase(effect)
+		var index = effects_list.find(effect)
+		if index != -1:
+			effects_list.remove_at(index)
 
 
 	
@@ -191,7 +211,6 @@ func _input(event: InputEvent) -> void:
 			for i in range(priority_key_list.length()):
 				var key = priority_key_list[i]
 				if letter == key:
-					print("按下了优先键：", letter)
 					if i < skills_list.size():
 							print("使用了技能：", skills_list[i])
 							var scene = get_current_scene()
