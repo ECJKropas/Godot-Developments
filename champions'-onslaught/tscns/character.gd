@@ -16,16 +16,22 @@ extends Node2D
 
 @onready var HealthBar:ProgressBar = get_node("HealthBar")
 @onready var Sprite:Sprite2D = get_node("Sprite2D")
+
 var current_scene = null
+
+# 安全获取当前场景的函数
+func get_current_scene():
+	await tree_entered
+	if current_scene == null and is_inside_tree():
+		current_scene = get_tree().current_scene
+	return current_scene
 
 var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 
-var effects_list:Array = []
-var effect_dic:Dictionary = {}
+@onready var effect_manager = get_node("EffectManager")
 
-# 时间戳记录器
-var timer:float = 0.0
+
 
 var skills_list:Array
 var skills_funcs:Array
@@ -43,9 +49,6 @@ var attrs = {
 var priority_key_list:String="QERTYUIOPFGHJKLZXCVBNM"
 
 func _process(delta: float) -> void:
-	# 更新时间戳
-	timer += delta
-	
 	HealthBar.value=health
 	
 	# Smooth velocity interpolation
@@ -57,69 +60,8 @@ func _process(delta: float) -> void:
 	
 	# Apply movement
 	position += velocity * delta
-	
-	# 处理效果列表
-	process_effects()
 
-# 处理效果逻辑
-func process_effects() -> void:
-	var scene = get_current_scene()
-	if scene == null:
-		return
-		
-	# 用于存储需要移除的效果
-	var effects_to_remove = []
-	
-	# 检查effects_list中的每一项
-	for effect in effects_list:
-		# 如果效果不在effect_dic中，添加新效果
-		if not effect in effect_dic:
-			effect_dic[effect] = timer  # 记录效果初始时间
-			# 应用效果
-			if scene.has("effects_func_database") and scene.effects_func_database.has(effect):
-				print("应用新效果: ", effect, " 初始时间: ", timer)
-				scene.effects_func_database[effect].apply_effect(self)
-		else:
-			# 效果已存在，检查时间
-			var effect_start_time = effect_dic[effect]
-			# 从效果数据库中获取效果属性
-			if scene.has("effects_func_database") and scene.effects_func_database.has(effect) and scene.has("effects_database"):
-				var effect_data = scene.effects_func_database[effect]
-				var effect_property = null
-				
-				# 在效果数据库中查找对应的效果配置
-				for effect_config in scene.effects_database:
-					if effect_config.has("type") and effect_config["type"] == effect:
-						effect_property = effect_config
-						break
-				
-				if effect_property != null:
-					# 检查是否有持续时间属性
-					if effect_property.has("duration"):
-						var duration = effect_property["duration"]
-						if timer - effect_start_time < duration:
-							# 时间未到，继续应用效果
-							if effect_property.has("effect_type") and effect_property["effect_type"] == "constant":
-								effect_data.apply_effect(self)
-						else:
-							# 时间到了，结束效果
-							print("效果结束: ", effect)
-							if effect_data.has_method("effect_end"):
-								effect_data.effect_end(self)
-							# 标记为待移除
-							effects_to_remove.append(effect)
-					else:
-						# 没有持续时间，认为是永久效果或需要手动移除
-						if effect_property.has("effect_type") and effect_property["effect_type"] == "constant":
-							effect_data.apply_effect(self)
-	
-	# 移除过期效果
-	for effect in effects_to_remove:
-		print("移除过期效果: ", effect, " 初始时间: ", effect_dic[effect])
-		effect_dic.erase(effect)
-		var index = effects_list.find(effect)
-		if index != -1:
-			effects_list.remove_at(index)
+
 
 
 	
@@ -130,17 +72,35 @@ var initiallized = false
 func get_camp() -> String:
 	return camp
 
-# 安全获取当前场景的函数
-func get_current_scene():
-	if current_scene == null and is_inside_tree():
-		current_scene = get_tree().current_scene
-	return current_scene
+# 效果管理相关方法
+func add_effect(effect_name: String) -> void:
+	if effect_manager != null:
+		effect_manager.add_effect(effect_name)
+
+func remove_effect(effect_name: String) -> void:
+	if effect_manager != null:
+		effect_manager.remove_effect(effect_name)
+
+func has_effect(effect_name: String) -> bool:
+	if effect_manager != null:
+		return effect_manager.has_effect(effect_name)
+	return false
+
+func get_effects() -> Array:
+	if effect_manager != null:
+		return effect_manager.get_effects()
+	return []
+
+func clear_all_effects() -> void:
+	if effect_manager != null:
+		effect_manager.clear_all_effects()
+
+
 
 func init_role(configList: Dictionary) -> void:
 	initiallized = false
 	
-	await tree_entered
-	var scene = get_current_scene()
+	var scene = await get_current_scene()
 	if scene==null:
 		print("初始化失败")
 		return
@@ -150,11 +110,15 @@ func init_role(configList: Dictionary) -> void:
 	self.health = configList["health"]
 	self.original_speed = configList["original_speed"]
 	self.camp = configList["camp"]
-	self.effects_list = configList["effects"]
-	print("已完成部分加载",scene==null)
-
 	
-	if scene != null and scene.has("skills_database"):
+	effect_manager = get_node("EffectManager")
+	# 设置效果列表到效果管理器
+	if effect_manager != null:
+		effect_manager.set_effects(configList["effects"])
+	else:
+		print("警告：EffectManager节点未找到，无法设置效果")
+	
+	if scene != null and scene!=self:
 		status = "加载技能中……"
 		print(status)
 		skills_list = configList["skills"]
@@ -172,9 +136,14 @@ func init_role(configList: Dictionary) -> void:
 		if key in attrs.keys():
 			attrs[key] = configList[key]
 	
+	Sprite = get_node("Sprite2D")
 	if "img" in configList.keys():
 		status = "加载图像中……"
-		Sprite.texture = load(configList["img"])
+		var pic_texture = load(configList["img"])
+		if pic_texture:
+			Sprite.texture = pic_texture
+		else:
+			print("图片加载失败 At ",configList["img"])
 	initiallized = true
 
 func _input(event: InputEvent) -> void:
@@ -206,14 +175,14 @@ func _input(event: InputEvent) -> void:
 		# 判断 keycode 是否在 KEY_A ~ KEY_Z 范围内
 		if event.keycode >= KEY_A and event.keycode <= KEY_Z:
 			# 转换为字母字符串（如 KEY_A → "A"，KEY_B → "B"）
-			var letter = String.chr(ord("A") + (event.keycode - KEY_A))
+			var letter = String.chr("A".unicode_at(0) + (event.keycode - KEY_A))
 			print("按下了字母键：", letter)
 			for i in range(priority_key_list.length()):
 				var key = priority_key_list[i]
 				if letter == key:
 					if i < skills_list.size():
 							print("使用了技能：", skills_list[i])
-							var scene = get_current_scene()
+							var scene = current_scene
 							if scene != null and scene != self:
 								skills_funcs[i].show_skill(self, scene.get_our_hero(self.camp), scene.get_other_hero(self.camp))
 					break
@@ -224,3 +193,7 @@ func _input(event: InputEvent) -> void:
 		target_velocity = movement_vector * original_speed * speed_amplifier * 100
 	else:
 		target_velocity = Vector2.ZERO
+
+
+func _on_effect_manager_ready() -> void:
+	pass # Replace with function body.

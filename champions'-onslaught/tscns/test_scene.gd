@@ -22,8 +22,7 @@ func _ready() -> void:
 	create_friend_character()
 	create_enemy_character()
 
-func has(sth:String):
-	return true
+
 
 func load_card_suit_data() -> void:
 	# 读取defaultCardSuit.json文件
@@ -120,6 +119,7 @@ func create_friend_character() -> void:
 	
 	# 初始化角色
 	character_instance.init_role(character_config)
+	character_instance.focused=true;
 	
 	# 添加到场景中
 	add_child(character_instance)
@@ -132,30 +132,23 @@ func create_enemy_character() -> void:
 		return
 	
 	# 获取第一个英雄数据
-	var hero_data = card_suit_data["heros"][0]
+	var hero_data = card_suit_data["heros"][1]
 	
 	# 创建character配置
-	var character_config = {
-		"type": hero_data["type"],
-		"summon_id": 2,  # 生成唯一ID
-		"health": hero_data["health"],
-		"original_speed": hero_data["original_speed"],
-		"camp": "enemy",  # 设置为friend阵营
-		"effects": hero_data["effects"],
-		"skills": hero_data["skills"]
-	}
+	var character_config = hero_data
+	character_config["summon_id"] = 2
+	character_config["camp"] = "enemy"
 	
 	# 实例化character场景
 	var character_instance = character_scene.instantiate()
 	
 	# 设置位置（可以根据需要调整）
 	character_instance.position = Vector2(200, 300)
-	
 	# 初始化角色
 	character_instance.init_role(character_config)
-	
 	# 添加到场景中
 	add_child(character_instance)
+	
 	
 	print("创建了enemy阵营的角色: ", hero_data["name"])
 

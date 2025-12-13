@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://rtddm23ywra6"
-path="res://.godot/imported/Title.jpg-6880f0074a72df0978aaf2d59cf25cd4.ctex"
+uid="uid://ceoutr3s1c1gg"
+path="res://.godot/imported/pheasant.png-a2cd574abc4b860766cc55a8e0220cd1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Title.jpg"
-dest_files=["res://.godot/imported/Title.jpg-6880f0074a72df0978aaf2d59cf25cd4.ctex"]
+source_file="res://assets/images/pheasant.png"
+dest_files=["res://.godot/imported/pheasant.png-a2cd574abc4b860766cc55a8e0220cd1.ctex"]
 
 [params]
 
