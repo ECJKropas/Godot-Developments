@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dlg66kqi0088r"]
+[gd_scene load_steps=9 format=3 uid="uid://dlg66kqi0088r"]
 
 [ext_resource type="Script" uid="uid://bdanqeni3bmqg" path="res://tscns/character.gd" id="1_idtch"]
 [ext_resource type="Texture2D" uid="uid://deqe4jj70rmby" path="res://assets/images/panda.png" id="2_eqd7v"]
 [ext_resource type="Script" uid="uid://d08nj281bcods" path="res://tscns/health_bar.gd" id="3_1o0c1"]
 [ext_resource type="Script" uid="uid://c6k0exitivhuc" path="res://tscns/effect_manager.gd" id="3_eqd7v"]
+[ext_resource type="Script" uid="uid://bmhhuh8jei8ro" path="res://tscns/character_body_2d.gd" id="3_tnmh8"]
 [ext_resource type="Script" uid="uid://pc4kkioky8wq" path="res://tscns/skill_manager.gd" id="5_hfkjl"]
 [ext_resource type="Script" uid="uid://cymmdun7nur65" path="res://tscns/mechanics_manager.gd" id="6_h6sxf"]
 
@@ -18,6 +19,7 @@ scale = Vector2(0.125, 0.125)
 texture = ExtResource("2_eqd7v")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+script = ExtResource("3_tnmh8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
 shape = SubResource("CircleShape2D_1o0c1")

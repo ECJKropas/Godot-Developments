@@ -1,6 +1,7 @@
 extends Node
 
-func show_skill(character:Node2D,our_hero:Array[Node2D],other_hero:Array[Node2D]) -> void:
+
+func show_skill(character: Node2D, our_hero: Array[Node2D], other_hero: Array[Node2D]) -> void:
 	for enemy in other_hero:
 		enemy.suffer_damage(10)
 	character.add_effect("cozy")
