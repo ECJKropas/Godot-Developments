@@ -1,16 +1,16 @@
 [
-    {
-        "type": "cozy",
-        "effect_type": "constant",
-        "name": "舒适",
-        "duration": 10,
-        "scr": "res://scrs/all_effects/cozy.gd"
-    },
-    {
-        "type": "slow_motion",
-        "effect_type": "change_once",
-        "name": "缓行",
-        "duration": 10,
-        "scr": "res://scrs/all_effects/slow_motion.gd"
-    }
+	{
+		"type": "cozy",
+		"effect_type": "constant",
+		"name": "舒适",
+		"duration": 10,
+		"scr": "res://scrs/all_effects/cozy.gd"
+	},
+	{
+		"type": "slow_motion",
+		"effect_type": "change_once",
+		"name": "缓行",
+		"duration": 10,
+		"scr": "res://scrs/all_effects/slow_motion.gd"
+	}
 ]

@@ -3,7 +3,8 @@ extends Node2D
 @export var type:String = "default"
 @export var summon_id:int
 
-@export var health:int = 100
+@export var max_health:int = 100
+@export var health:float = 100
 @export var original_speed:int = 5
 @export var speed_amplifier:float = 1.00
 @export var acceleration:float = 15.0
@@ -30,11 +31,33 @@ var velocity = Vector2.ZERO
 var target_velocity = Vector2.ZERO
 
 @onready var effect_manager = get_node("EffectManager")
+@onready var skill_manager = get_node("EffectManager")
+@onready var mechanics_manager = get_node("MechanicsManager")
 
+var damage_buffs:Dictionary={
+	"Default":{
+		"val":0.5,
+		"op":"mul"
+	}
+}
 
+func suffer_damage(ini_damage:float):
+	var res_damage=ini_damage
+	for i in damage_buffs.values():
+		if i["op"]=="mul":
+			res_damage*=i["val"]
+		if i["op"]=="div":
+			res_damage/=i["val"]
+	for i in damage_buffs.values():
+		if i["op"]=="add":
+			res_damage+=i["val"]
+		if i["op"]=="sub":
+			res_damage-=i["val"]
+	res_damage=max(res_damage,0)
+	res_damage=min(res_damage,health+10)
+	health-=res_damage
+	return res_damage
 
-var skills_list:Array
-var skills_funcs:Array
 
 var attrs = {
 	"Lust":0,
@@ -46,10 +69,12 @@ var attrs = {
 	"Pride":0
 }
 
-var priority_key_list:String="QERTYUIOPFGHJKLZXCVBNM"
+
+var dead:bool = false
+var hidden_time = 1
 
 func _process(delta: float) -> void:
-	HealthBar.value=health
+	HealthBar.set_health(health,max_health)
 	
 	# Smooth velocity interpolation
 	velocity = velocity.lerp(target_velocity, acceleration * delta)
@@ -60,7 +85,15 @@ func _process(delta: float) -> void:
 	
 	# Apply movement
 	position += velocity * delta
-
+	
+	if health<=0 and !dead:
+		dead=true
+		var dying_manager = load("res://die.tscn").instantiate()
+		current_scene.add_child(dying_manager)
+		dying_manager.die_init(self,1)
+		await dying_manager.dead_process_finished
+	
+	
 
 
 
@@ -107,9 +140,11 @@ func init_role(configList: Dictionary) -> void:
 	
 	self.type = configList["type"]
 	self.summon_id = configList["summon_id"]
-	self.health = configList["health"]
+	self.max_health = configList["health"]
 	self.original_speed = configList["original_speed"]
 	self.camp = configList["camp"]
+	
+	self.health = max_health
 	
 	effect_manager = get_node("EffectManager")
 	# 设置效果列表到效果管理器
@@ -118,19 +153,19 @@ func init_role(configList: Dictionary) -> void:
 	else:
 		print("警告：EffectManager节点未找到，无法设置效果")
 	
-	if scene != null and scene!=self:
-		status = "加载技能中……"
-		print(status)
-		skills_list = configList["skills"]
-		for skill in skills_list:
-			var skill_data = scene.skills_mapping[skill]
-			status = "加载技能中…… " + skill_data["name"]
-			print(status)
-			var skill_script = load(skill_data["scr"])
-			var skill_instance = skill_script.new()
-			skills_funcs.append(skill_instance)
-
-
+	skill_manager = get_node("SkillManager")
+	# 设置效果列表到效果管理器
+	if skill_manager != null:
+		skill_manager.load_funcs(configList["skills"])
+	else:
+		print("警告：SkillManager节点未找到，无法设置效果")
+	
+	mechanics_manager = get_node("MechanicsManager")
+	# 设置效果列表到效果管理器
+	if mechanics_manager != null:
+		mechanics_manager.set_mechanicss(configList["mechanics"])
+	else:
+		print("警告：MechanicsManager节点未找到，无法设置效果")
 
 	for key in configList.keys():
 		if key in attrs.keys():
@@ -170,22 +205,6 @@ func _input(event: InputEvent) -> void:
 		movement_vector.y -= 1
 	if event.is_action_pressed("move_down") or Input.is_action_pressed("move_down"):
 		movement_vector.y += 1
-
-	if event is InputEventKey and event.pressed and not event.echo:
-		# 判断 keycode 是否在 KEY_A ~ KEY_Z 范围内
-		if event.keycode >= KEY_A and event.keycode <= KEY_Z:
-			# 转换为字母字符串（如 KEY_A → "A"，KEY_B → "B"）
-			var letter = String.chr("A".unicode_at(0) + (event.keycode - KEY_A))
-			print("按下了字母键：", letter)
-			for i in range(priority_key_list.length()):
-				var key = priority_key_list[i]
-				if letter == key:
-					if i < skills_list.size():
-							print("使用了技能：", skills_list[i])
-							var scene = current_scene
-							if scene != null and scene != self:
-								skills_funcs[i].show_skill(self, scene.get_our_hero(self.camp), scene.get_other_hero(self.camp))
-					break
 	
 	# Set target velocity based on input
 	if movement_vector.length() > 0:

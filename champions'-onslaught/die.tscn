@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://584gumqt1hrb"]
+
+[ext_resource type="Script" uid="uid://d06hqfre8kf3g" path="res://die.gd" id="1_fl3nv"]
+
+[node name="Die" type="Node"]
+script = ExtResource("1_fl3nv")

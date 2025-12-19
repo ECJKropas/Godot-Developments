@@ -1,7 +1,7 @@
 extends Node
 
-func apply_effect(character:Node2D) -> void:
-    character.health+=1
+func apply_effect(character:Node2D,delta: float=0) -> void:
+	character.health+=delta
 
 func effect_end(_character:Node2D) -> void:
-    pass
+	pass

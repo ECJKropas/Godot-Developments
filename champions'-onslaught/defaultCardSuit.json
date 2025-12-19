@@ -1,22 +1,25 @@
 {
-    "name": "default",
-    "heros": [
-        {
-            "name": "Panda",
-            "type": "Panda",
-            "health": 100,
-            "original_speed": 5,
-            "effects": ["cozy"],
-            "skills": ["beat"]
-        },
-        {
-            "name": "Pheasant",
-            "type": "Pheasant",
-            "health": 100,
-            "original_speed": 5,
-            "effects": [],
-            "skills": ["beat"],
-            "img": "res://assets/images/pheasant.png"
-        }
-    ]
+	"name": "default",
+	"heros": [
+		{
+			"name": "Panda",
+			"type": "Panda",
+			"health": 100,
+			"original_speed": 5,
+			"effects": ["cozy","slow_motion"],
+			"skills": ["beat","square_area_damage"],
+			"mechanics":["recover_while_dying"],
+			"img": "res://assets/images/panda.png"
+		},
+		{
+			"name": "Pheasant",
+			"type": "Pheasant",
+			"health": 100,
+			"original_speed": 5,
+			"effects": ["cozy"],
+			"skills": ["beat"],
+			"mechanics":["recover_while_dying"],
+			"img": "res://assets/images/pheasant.png"
+		}
+	]
 }

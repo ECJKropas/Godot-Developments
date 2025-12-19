@@ -1,0 +1,7 @@
+[
+	{
+		"type": "recover_while_dying",
+		"name": "回光返照",
+		"scr": "res://scrs/all_mechanics/recover_while_dying.gd"
+	}
+]

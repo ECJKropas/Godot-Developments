@@ -20,10 +20,10 @@ func _process(delta: float) -> void:
 	timer += delta
 	
 	# 处理效果列表
-	process_effects()
+	process_effects(delta)
 
 # 处理效果逻辑
-func process_effects() -> void:
+func process_effects(delta: float) -> void:
 	if parent_character == null:
 		return
 		
@@ -64,7 +64,7 @@ func process_effects() -> void:
 						if timer - effect_start_time < duration:
 							# 时间未到，继续应用效果
 							if effect_property.has("effect_type") and effect_property["effect_type"] == "constant":
-								effect_data.apply_effect(parent_character)
+								effect_data.apply_effect(parent_character,delta)
 						else:
 							# 时间到了，结束效果
 							print("效果结束: ", effect)

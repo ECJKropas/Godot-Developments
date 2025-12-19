@@ -1,9 +1,16 @@
 [
-    {
-        "type": "beat",
-        "name": "beat",
-        "cd": 0,
-        "level": 0,
-        "scr": "res://scrs/all_skills/beat.gd"
-    }
+	{
+		"type": "beat",
+		"name": "beat",
+		"cd": 5,
+		"level": 0,
+		"scr": "res://scrs/all_skills/beat.gd"
+	},
+	{
+		"type": "square_area_damage",
+		"name": "方方",
+		"cd": 1,
+		"level": 0,
+		"scr": "res://scrs/all_skills/square_area_damage.gd"
+	}
 ]
