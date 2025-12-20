@@ -79,7 +79,30 @@ func suffer_damage(ini_damage: float):
 	res_damage = max(res_damage, 0)
 	res_damage = min(res_damage, health + 10)
 	health -= res_damage
+	
+	# 显示伤害特效
+	if res_damage > 0:
+		var battle_field = get_parent()
+		if battle_field and battle_field.has_method("add_effect_display"):
+			battle_field.add_effect_display(global_position, "damage")
+	
 	return res_damage
+
+func heal(amount: float) -> void:
+	var old_health = health
+	health = min(health + amount, max_health)
+	var healed_amount = health - old_health
+	
+	# 更新血条显示
+	if HealthBar:
+		HealthBar.set_health(health, max_health)
+	
+	# 显示治疗特效
+	if healed_amount > 0:
+		var battle_field = get_parent()
+		if battle_field and battle_field.has_method("add_effect_display"):
+			battle_field.add_effect_display(global_position, "heal")
+		print("角色 ", name, " 恢复了 ", healed_amount, " 点生命值")
 
 var attrs = {
 	"Lust": 0,
@@ -97,6 +120,9 @@ var hidden_time = 1
 
 func _process(delta: float) -> void:
 	HealthBar.set_health(health, max_health)
+	
+	# 处理技能系统
+	_process_skill_system(delta)
 
 	# Update CharacterBody2D focus state
 	if character_body:
@@ -242,3 +268,95 @@ func _on_effect_manager_ready() -> void:
 # Handle collision damage from CharacterBody2D
 func handle_collision_damage(damage: float) -> void:
 	suffer_damage(damage)
+
+# Skill system methods for battle field
+var is_moving_to_target_flag: bool = false
+var skill_cooldown_timer: float = 0.0
+var skill_cooldown_duration: float = 2.0  # 技能冷却时间（秒）
+var target_position: Vector2 = Vector2.ZERO
+var move_to_target_speed: float = 150.0  # 移动到目标的速度
+
+func is_moving_to_target() -> bool:
+	return is_moving_to_target_flag
+
+func is_skill_cooldown() -> bool:
+	return skill_cooldown_timer > 0.0
+
+func trigger_skill(skill_type: String) -> void:
+	if not current_focus_target:
+		print("没有目标，无法释放技能")
+		return
+	
+	# 设置移动到目标标志
+	is_moving_to_target_flag = true
+	
+	# 设置目标位置（目标的当前位置）
+	target_position = current_focus_target.global_position
+	
+	# 开始技能冷却
+	skill_cooldown_timer = skill_cooldown_duration
+	
+	print("角色 ", name, " 开始释放技能: ", skill_type, " 目标: ", current_focus_target.name)
+
+func _process_skill_system(delta: float) -> void:
+	# 处理技能冷却
+	if skill_cooldown_timer > 0.0:
+		skill_cooldown_timer -= delta
+		if skill_cooldown_timer < 0.0:
+			skill_cooldown_timer = 0.0
+	
+	# 处理移动到目标
+	if is_moving_to_target_flag and current_focus_target:
+		# 更新目标位置（目标可能移动）
+		target_position = current_focus_target.global_position
+		
+		# 计算到目标的方向
+		var direction = (target_position - global_position).normalized()
+		
+		# 计算到目标的距离
+		var distance = global_position.distance_to(target_position)
+		
+		# 如果距离大于攻击范围（假设50像素），继续移动
+		if distance > 50.0:
+			# 设置移动输入
+			if character_body:
+				character_body.set_movement_input(direction)
+		else:
+			# 到达目标位置，执行技能效果
+			is_moving_to_target_flag = false
+			execute_skill_effect()
+			# 停止移动
+			if character_body:
+				character_body.set_movement_input(Vector2.ZERO)
+
+func execute_skill_effect() -> void:
+	if current_focus_target and current_focus_target.has_method("suffer_damage"):
+		# 假设技能造成20点伤害
+		var damage = 20.0
+		current_focus_target.suffer_damage(damage)
+		print("技能命中目标: ", current_focus_target.name, " 造成 ", damage, " 点伤害")
+		
+		# 创建技能效果显示
+		var battle_field = get_parent()
+		if battle_field and battle_field.has_method("add_effect_display"):
+			battle_field.add_effect_display(global_position, "skill_hit")
+
+var current_focus_target: Node2D = null
+
+func set_focus_character(target: Node2D) -> void:
+	current_focus_target = target
+	print("设置角色焦点目标: ", target.name if target else "无")
+
+# UI相关方法
+func get_character_name() -> String:
+	return name
+
+func get_health() -> float:
+	return health
+
+func get_max_health() -> float:
+	return max_health
+
+func get_thumbnail_path() -> String:
+	# 返回角色的缩略图路径
+	return "res://icon.svg"  # 默认图标，可以根据需要修改

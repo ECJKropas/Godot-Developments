@@ -29,6 +29,7 @@ script = ExtResource("2_c4efl")
 script = ExtResource("3_q3o66")
 
 [node name="2DChiefManager" type="Node2D" parent="."]
+visible = false
 script = ExtResource("4_om2o6")
 
 [node name="CharacterManager" type="Node2D" parent="2DChiefManager"]
