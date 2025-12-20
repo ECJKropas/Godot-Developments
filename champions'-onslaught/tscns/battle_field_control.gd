@@ -1,22 +1,36 @@
 extends Control
 
 @onready var effect_display_manager = find_effect_display_manager()
-@onready var player_basics = $PlayerBasics
+@onready var player_basics = find_player_basics()
 @onready var battle_field = get_node("..")  # 获取BattleField节点
 
 func find_effect_display_manager():
-	# 尝试直接子节点
-	var direct_child = $EffectDisplayManager if has_node("EffectDisplayManager") else null
-	if direct_child:
-		return direct_child
+	# 尝试兄弟节点
+	var parent = get_parent()
+	if parent and parent.has_node("EffectDisplayManager"):
+		return parent.get_node("EffectDisplayManager")
 	
 	# 尝试完整路径
-	var full_path = get_node_or_null("EffectDisplayManager")
+	var full_path = get_node_or_null("../EffectDisplayManager")
 	if full_path:
 		return full_path
 	
 	# 尝试递归查找
-	return find_node_in_children(self, "EffectDisplayManager")
+	return find_node_in_children(get_parent(), "EffectDisplayManager")
+
+func find_player_basics():
+	# 尝试兄弟节点
+	var parent = get_parent()
+	if parent and parent.has_node("PlayerBasics"):
+		return parent.get_node("PlayerBasics")
+	
+	# 尝试完整路径
+	var full_path = get_node_or_null("../PlayerBasics")
+	if full_path:
+		return full_path
+	
+	# 尝试递归查找
+	return find_node_in_children(get_parent(), "PlayerBasics")
 
 func find_node_in_children(node, target_name):
 	for child in node.get_children():
@@ -29,37 +43,18 @@ func find_node_in_children(node, target_name):
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	print("战场控制UI初始化开始...")
-	
-	# 打印当前节点的子节点信息
-	print("当前节点的子节点:")
-	for child in get_children():
-		print("  - ", child.name, " (类型: ", child.get_class(), ")")
-		if child.name == "EffectDisplayManager":
-			print("    EffectDisplayManager找到，脚本: ", child.get_script() if child.get_script() else "无脚本")
-	
 	# 检查特效显示管理器是否存在
 	if effect_display_manager:
-		print("找到EffectDisplayManager节点")
-		print("EffectDisplayManager类型: ", effect_display_manager.get_class())
-		print("EffectDisplayManager脚本: ", effect_display_manager.get_script() if effect_display_manager.get_script() else "无脚本")
-		
 		if effect_display_manager.has_method("initialize"):
 			effect_display_manager.initialize()
-			print("EffectDisplayManager初始化完成")
 		else:
 			print("警告：EffectDisplayManager没有initialize方法")
-			print("可用方法: ", effect_display_manager.get_method_list())
 	else:
 		print("错误：未找到EffectDisplayManager节点")
 	
 	# 检查玩家基础信息面板
-	if player_basics:
-		print("找到PlayerBasics节点")
-	else:
+	if not player_basics:
 		print("警告：未找到PlayerBasics节点")
-	
-	print("战场控制UI初始化完成")
 
 func _process(delta: float) -> void:
 	# 更新UI状态
