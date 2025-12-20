@@ -40,10 +40,7 @@ func _ready() -> void:
 		speed_amplifier = speed_props["speed_amplifier"]
 
 func _physics_process(delta: float) -> void:
-	# Handle movement using built-in CharacterBody2D functions
-	_handle_movement(delta)
-	
-	# Handle collisions
+	# Handle collisions first (to update timers)
 	_handle_collisions(delta)
 	
 	# 保存移动前的全局位置
@@ -53,6 +50,10 @@ func _physics_process(delta: float) -> void:
 	var collision = move_and_collide(velocity * delta)
 	if collision:
 		_handle_collision_response(collision)
+		# 碰撞响应已经设置了新的速度，但还需要继续处理位置同步
+	
+	# 处理运动逻辑（包括被动移动期间的摩擦力）
+	_handle_movement(delta)
 	
 	# 计算实际移动距离
 	var actual_movement = global_position - old_global_pos
@@ -71,7 +72,9 @@ func _handle_movement(delta: float) -> void:
 		# 未focus时的处理
 		if is_passive_movement:
 			# 被动移动期间（如被撞击）- 使用较小的摩擦力，让角色能自然滑动和反弹
-			velocity = velocity.lerp(Vector2.ZERO, friction * delta * 2)
+			# 只在速度不太大的时候应用摩擦力，避免立即消除碰撞反弹
+			if velocity.length() < 20:
+				velocity = velocity.lerp(Vector2.ZERO, friction * delta * 0.3)
 		else:
 			# 完全静止时 - 使用正常的摩擦力
 			velocity = velocity.lerp(Vector2.ZERO, friction * delta * 10)
@@ -117,13 +120,13 @@ func _handle_collision_response(collision) -> void:
 		# Only apply damage to the other character, not to self
 		collider.suffer_damage(damage)
 		
-		# Collision response - bounce back slightly
+		# Collision response - bounce back with more force
 		var bounce_direction = -collision.get_normal()
-		velocity = bounce_direction * 50
+		velocity = bounce_direction * 80
 		
-		# 标记被动移动状态
+		# 标记被动移动状态 - 重置计时器以延长被动移动时间
 		is_passive_movement = true
-		passive_movement_timer = 1.0  # 被动移动持续1.0秒
+		passive_movement_timer = 1.5  # 被动移动持续1.5秒
 
 func set_movement_input(new_movement_vector: Vector2) -> void:
 	movement_vector = new_movement_vector
