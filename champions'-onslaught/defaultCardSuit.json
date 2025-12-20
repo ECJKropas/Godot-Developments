@@ -5,7 +5,7 @@
 			"name": "Panda",
 			"type": "Panda",
 			"health": 100,
-			"original_speed": 5,
+			"original_speed": 500,
 			"effects": ["cozy","slow_motion"],
 			"skills": ["beat","square_area_damage"],
 			"mechanics":["recover_while_dying"],

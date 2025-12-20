@@ -5,8 +5,32 @@ extends Node2D
 
 @export var max_health: int = 100
 @export var health: float = 100
+@export var original_speed: int = 5
+@export var speed_amplifier: float = 1.00
 # Movement properties moved to CharacterBody2D
 @onready var character_body = get_node("CharacterBody2D")
+
+# Speed control methods
+func set_original_speed(new_speed: int) -> void:
+	original_speed = new_speed
+	if character_body:
+		character_body.set_speed_properties(original_speed, speed_amplifier)
+
+func set_speed_amplifier(new_amplifier: float) -> void:
+	speed_amplifier = new_amplifier
+	if character_body:
+		character_body.set_speed_properties(original_speed, speed_amplifier)
+
+func multiply_speed_amplifier(new_amplifier: float) -> void:
+	speed_amplifier *= new_amplifier
+	if character_body:
+		character_body.set_speed_properties(original_speed, speed_amplifier)
+
+func get_speed_properties() -> Dictionary:
+	return {
+		"original_speed": original_speed,
+		"speed_amplifier": speed_amplifier
+	}
 
 @export var target: Node2D = null
 @export var camp: String = "default"
@@ -74,10 +98,9 @@ var hidden_time = 1
 func _process(delta: float) -> void:
 	HealthBar.set_health(health, max_health)
 
-	# Update CharacterBody2D properties
+	# Update CharacterBody2D focus state
 	if character_body:
 		character_body.set_focus(focused)
-		character_body.set_health_properties(max_health, health)
 
 	if health <= 0 and !dead:
 		dead = true
@@ -141,9 +164,8 @@ func init_role(configList: Dictionary) -> void:
 	# Sync properties with CharacterBody2D
 	character_body = get_node("CharacterBody2D")
 	if character_body:
-		character_body.original_speed = configList["original_speed"]
-		character_body.max_health = configList["health"]
-		character_body.health = configList["health"]
+		set_original_speed(configList["original_speed"])
+		# Health is managed by character.gd, not character_body_2d.gd
 
 	effect_manager = get_node("EffectManager")
 	# 设置效果列表到效果管理器
@@ -185,30 +207,33 @@ func _input(event: InputEvent) -> void:
 	if not focused:
 		return
 
-	var movement_vector = Vector2.ZERO
+	# Only process key press and release events, not echo events
+	if event is InputEventKey and not event.echo:
+		var movement_vector = Vector2.ZERO
+		
+		# Check arrow keys
+		if Input.is_action_pressed("ui_left"):
+			movement_vector.x -= 1
+		if Input.is_action_pressed("ui_right"):
+			movement_vector.x += 1
+		if Input.is_action_pressed("ui_up"):
+			movement_vector.y -= 1
+		if Input.is_action_pressed("ui_down"):
+			movement_vector.y += 1
 
-	if event.is_action_pressed("ui_left") or Input.is_action_pressed("ui_left"):
-		movement_vector.x -= 1
-	if event.is_action_pressed("ui_right") or Input.is_action_pressed("ui_right"):
-		movement_vector.x += 1
-	if event.is_action_pressed("ui_up") or Input.is_action_pressed("ui_up"):
-		movement_vector.y -= 1
-	if event.is_action_pressed("ui_down") or Input.is_action_pressed("ui_down"):
-		movement_vector.y += 1
+		# Check WASD keys
+		if Input.is_action_pressed("move_left"):
+			movement_vector.x -= 1
+		if Input.is_action_pressed("move_right"):
+			movement_vector.x += 1
+		if Input.is_action_pressed("move_up"):
+			movement_vector.y -= 1
+		if Input.is_action_pressed("move_down"):
+			movement_vector.y += 1
 
-	# Check for WASD keys
-	if event.is_action_pressed("move_left") or Input.is_action_pressed("move_left"):
-		movement_vector.x -= 1
-	if event.is_action_pressed("move_right") or Input.is_action_pressed("move_right"):
-		movement_vector.x += 1
-	if event.is_action_pressed("move_up") or Input.is_action_pressed("move_up"):
-		movement_vector.y -= 1
-	if event.is_action_pressed("move_down") or Input.is_action_pressed("move_down"):
-		movement_vector.y += 1
-
-	# Set movement input on CharacterBody2D
-	if character_body:
-		character_body.set_movement_input(movement_vector)
+		# Set movement input on CharacterBody2D
+		if character_body:
+			character_body.set_movement_input(movement_vector)
 
 
 func _on_effect_manager_ready() -> void:
