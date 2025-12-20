@@ -4,7 +4,7 @@ extends CharacterBody2D
 var original_speed: int = 5
 var speed_amplifier: float = 1.00
 @export var acceleration: float = 5.0  # Reduced from 15.0 for smoother movement
-@export var friction: float = 0.8
+@export var friction: float = 0.95
 
 # Collision damage properties
 @export var collision_damage: float = 2.0
@@ -69,15 +69,14 @@ func _physics_process(delta: float) -> void:
 func _handle_movement(delta: float) -> void:
 	# Only process movement if focused
 	if not focused:
-		# 未focus时的处理
-		if is_passive_movement:
-			# 被动移动期间（如被撞击）- 使用较小的摩擦力，让角色能自然滑动和反弹
-			# 只在速度不太大的时候应用摩擦力，避免立即消除碰撞反弹
-			if velocity.length() < 20:
-				velocity = velocity.lerp(Vector2.ZERO, friction * delta * 0.3)
+		if velocity.length() > 60:
+			print(velocity)
+			velocity = velocity.lerp(Vector2.ZERO, friction * delta) * 0.95
+		elif velocity.length() > 20:
+			print(velocity)
+			velocity = 0.7 * velocity
 		else:
-			# 完全静止时 - 使用正常的摩擦力
-			velocity = velocity.lerp(Vector2.ZERO, friction * delta * 10)
+			velocity = Vector2.ZERO
 		return
 	
 	# Calculate target velocity based on input
@@ -97,11 +96,7 @@ func _handle_collisions(delta: float) -> void:
 		if last_collision_time <= 0:
 			collided_bodies.clear()
 	
-	# 更新被动移动计时器
-	if passive_movement_timer > 0:
-		passive_movement_timer -= delta
-		if passive_movement_timer <= 0:
-			is_passive_movement = false
+
 
 func _handle_collision_response(collision) -> void:
 	var collider = collision.get_collider()
@@ -122,11 +117,10 @@ func _handle_collision_response(collision) -> void:
 		
 		# Collision response - bounce back with more force
 		var bounce_direction = -collision.get_normal()
-		velocity = bounce_direction * 80
+		collider.velocity = velocity * 0.2
+		velocity = velocity.bounce(bounce_direction) * 0.8
 		
-		# 标记被动移动状态 - 重置计时器以延长被动移动时间
-		is_passive_movement = true
-		passive_movement_timer = 1.5  # 被动移动持续1.5秒
+		
 
 func set_movement_input(new_movement_vector: Vector2) -> void:
 	movement_vector = new_movement_vector
