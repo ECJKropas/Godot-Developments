@@ -212,4 +212,4 @@ func _draw() -> void:
 
 实时更新`PlayerBasics`节点中的信息。它显示的是当前focus的角色的信息。
 
-注意看`ExampleEffectBackground`节点，它只是一个示例，实际上应当通过`EffectDisplayManager`节点来管理所有特效显示，并用代码生成
+注意看`ExampleEffectBackground`节点，它只是一个示例，实际上应当通过`EffectDisplayManager`节点来管理所有效果显示，并用代码生成。在一个单独的character中，有一个专门的effectmanager节点，用来管理所有效果。

@@ -4,11 +4,17 @@ var character_scene = preload("res://tscns/character.tscn")
 var my_characters_data = null
 var enemy_characters_data = null
 
+signal character_loaded
+var loaded = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# 加载角色数据
 	load_my_characters_data()
 	load_enemy_characters_data()
+	character_loaded.emit()
+	loaded = true
+	print("角色加载器初始化完成")
 
 func load_my_characters_data() -> void:
 	# 检查user://my_characters.json是否存在
@@ -142,5 +148,5 @@ func get_first_my_character_data() -> Dictionary:
 
 func get_first_enemy_character_data() -> Dictionary:
 	if enemy_characters_data and enemy_characters_data.has("heros") and enemy_characters_data["heros"].size() > 0:
-		return enemy_characters_data["heros"][0]
+		return enemy_characters_data["heros"][1]
 	return {}

@@ -31,9 +31,6 @@ script = ExtResource("3_q3o66")
 [node name="2DChiefManager" type="Node2D" parent="."]
 script = ExtResource("4_om2o6")
 
-[node name="CharacterManager" type="Node2D" parent="2DChiefManager"]
-script = ExtResource("5_otdoc")
-
 [node name="TileMapManager" type="Node2D" parent="2DChiefManager"]
 script = ExtResource("6_j3xvn")
 
@@ -47,6 +44,9 @@ tile_set = ExtResource("1_0nt7v")
 
 [node name="ObjectsLayer" type="TileMapLayer" parent="2DChiefManager/TileMapManager"]
 tile_set = ExtResource("1_0nt7v")
+
+[node name="CharacterManager" type="Node2D" parent="2DChiefManager"]
+script = ExtResource("5_otdoc")
 
 [node name="Marker2D" type="Marker2D" parent="2DChiefManager"]
 script = ExtResource("2_487b1")

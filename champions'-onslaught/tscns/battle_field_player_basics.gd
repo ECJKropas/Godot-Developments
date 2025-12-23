@@ -21,6 +21,12 @@ func _ready() -> void:
 
 # 动态查找BattleField节点
 func find_battle_field_node() -> Node:
+	if get_tree().current_scene.name == "BattleField":
+		return get_tree().current_scene
+	else: 
+		print("警告: 当前场景根节点不是BattleField")
+		return null
+
 	var current_node = get_parent()
 	while current_node:
 		if current_node.has_method("get_current_focus_character"):
@@ -33,6 +39,7 @@ func _process(delta: float) -> void:
 	update_display()
 
 func update_display() -> void:
+	battle_field = find_battle_field_node()
 	if not battle_field:
 		print("错误: BattleField节点未找到")
 		return

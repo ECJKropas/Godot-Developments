@@ -10,6 +10,8 @@ extends Node2D
 # Movement properties moved to CharacterBody2D
 @onready var character_body = get_node("CharacterBody2D")
 
+var texture_path
+
 # Speed control methods
 func set_original_speed(new_speed: int) -> void:
 	original_speed = new_speed
@@ -220,6 +222,7 @@ func init_role(configList: Dictionary) -> void:
 
 	Sprite = get_node("Sprite2D")
 	if "img" in configList.keys():
+		self.texture_path = configList["img"]
 		status = "加载图像中……"
 		var pic_texture = load(configList["img"])
 		if pic_texture:
@@ -359,4 +362,4 @@ func get_max_health() -> float:
 
 func get_thumbnail_path() -> String:
 	# 返回角色的缩略图路径
-	return "res://icon.svg"  # 默认图标，可以根据需要修改
+	return texture_path  # 默认图标，可以根据需要修改

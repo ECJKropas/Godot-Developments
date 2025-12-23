@@ -2,9 +2,12 @@ extends Control
 
 @onready var effect_display_manager = find_effect_display_manager()
 @onready var player_basics = find_player_basics()
-@onready var battle_field = get_node("..")  # 获取BattleField节点
+@onready var battle_field = get_node("../..")  # 获取BattleField节点
 
 func find_effect_display_manager():
+	if get_node_or_null("EffectDisplayManager"):
+		return get_node("EffectDisplayManager")
+
 	# 尝试兄弟节点
 	var parent = get_parent()
 	if parent and parent.has_node("EffectDisplayManager"):
@@ -19,6 +22,9 @@ func find_effect_display_manager():
 	return find_node_in_children(get_parent(), "EffectDisplayManager")
 
 func find_player_basics():
+	if get_node_or_null("PlayerBasics"):
+		return get_node("PlayerBasics")
+
 	# 尝试兄弟节点
 	var parent = get_parent()
 	if parent and parent.has_node("PlayerBasics"):

@@ -14,6 +14,24 @@ func _ready() -> void:
 	parent_character = get_parent()
 	if parent_character == null:
 		print("错误：EffectManager没有找到父角色节点")
+	
+	# 初始化效果管理器
+	initialize()
+
+# 初始化效果管理器
+func initialize() -> void:
+	print("开始初始化EffectManager...")
+	
+	# 确保父角色节点存在
+	if parent_character == null:
+		parent_character = get_parent()
+	
+	# 重置效果列表和字典
+	effects_list.clear()
+	effect_dic.clear()
+	timer = 0.0
+	
+	print("效果管理器初始化完成，父角色:", parent_character.name if parent_character else "未知")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

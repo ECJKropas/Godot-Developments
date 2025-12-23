@@ -10,6 +10,7 @@ func _ready() -> void:
 func add_character(character_node):
 	if character_node:
 		characters.append(character_node)
+		add_child(character_node)
 		print("添加角色到管理器: ", character_node.name)
 
 func remove_character(character_node):

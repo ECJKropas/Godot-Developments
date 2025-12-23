@@ -8,12 +8,17 @@ var skills_mapping = { }
 var mechanics_database = []
 var mechanics_func_database = { }  # Dictionary[Node]
 
+signal database_loaded
+var loaded = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# 加载effects、skills和mechanics数据库
 	load_effects_database()
 	load_skills_database()
 	load_mechanics_database()
+	database_loaded.emit()
+	loaded = true
 
 func load_effects_database() -> void:
 	# 读取all_effects.json文件

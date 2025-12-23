@@ -5,13 +5,34 @@ extends Node2D
 @onready var character_manager = $"2DChiefManager/CharacterManager"
 @onready var log_place = $"UILayer/Control/Logboard/LogPlace"
 
-var current_focus_character = null
+var current_focus_character: Node2D = null
+
+var effects_database = []
+var effects_func_database = { }  # Dictionary[Node]
+var skills_database = []
+var skills_mapping = { }
+var mechanics_database = []
+var mechanics_func_database = { }  # Dictionary[Node]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# 等待数据库加载完成
 	await get_tree().create_timer(0.1).timeout
+
+	if !database_loader.loaded:
+		await database_loader.database_loaded
+
+	effects_database = database_loader.effects_database
+	effects_func_database = database_loader.effects_func_database
+	skills_database = database_loader.skills_database
+	skills_mapping = database_loader.skills_mapping
+	mechanics_database = database_loader.mechanics_database
+	mechanics_func_database = database_loader.mechanics_func_database
 	
+	if !character_loader.loaded:
+		print("waiting")
+		await character_loader.character_loaded
+	print("def")
 	# 创建角色
 	create_initial_characters()
 	
@@ -22,6 +43,7 @@ func create_initial_characters() -> void:
 	# 创建我方第一个角色
 	var my_first_char_data = character_loader.get_first_my_character_data()
 	if my_first_char_data:
+		print("Success")
 		var my_character = character_loader.create_character(my_first_char_data, "friend", Vector2(400, 300))
 		if my_character:
 			character_manager.add_character(my_character)
