@@ -1,7 +1,4 @@
 # Godot 4+ specific ignores
 .godot/
 /android/
-addons/python4godot
-addons/python4godot/*
-addons/python4godot/**
-addons/python4godot/cpython-3.12.4-darwin64
+
