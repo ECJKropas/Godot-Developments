@@ -13,6 +13,7 @@ signal set_cell(describe: Dictionary)
 var select_pic: Array[Texture2D]
 
 @onready var TextureB: TextureButton = $TextureButton
+@onready var Pan: Panel = $Panel
 
 
 func blend_pictures(texture1: Texture2D, texture2: Texture2D) -> ImageTexture:
@@ -114,6 +115,7 @@ func set_disabled(disable_or_not: bool = true):
 		self.disabled = disable_or_not
 		TextureB.texture_hover = self.select_pic[int(disable_or_not)]
 		TextureB.disabled = disable_or_not
+		Pan.visible = !disable_or_not
 
 
 func get_describe():

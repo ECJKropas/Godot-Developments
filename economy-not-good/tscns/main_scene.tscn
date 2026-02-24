@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://va6uoos8xv37" path="res://tscns/scale_controller.gd" id="2_2hnjd"]
 [ext_resource type="PackedScene" uid="uid://b6fg5j2j7cfan" path="res://tscns/board.tscn" id="2_8if00"]
 [ext_resource type="Texture2D" uid="uid://bp0og1ol0vmqs" path="res://assets/eel_sushi.png" id="2_sny8u"]
-[ext_resource type="Texture2D" uid="uid://bhptfnx681u60" path="res://assets/red_circle.png" id="3_kdisc"]
+[ext_resource type="Texture2D" uid="uid://iqyhhnkoc1w5" path="res://assets/blue_ball.png" id="3_sny8u"]
 [ext_resource type="Script" uid="uid://d0i47evoeljoh" path="res://tscns/game_logic_manager.gd" id="6_7wvmo"]
 
 [node name="MainScene" type="Control"]
@@ -15,7 +15,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_eosn2")
-textures = Array[Texture2D]([ExtResource("2_sny8u"), ExtResource("3_kdisc")])
+textures = Array[Texture2D]([ExtResource("2_sny8u"), ExtResource("3_sny8u")])
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(1152, 648)
@@ -64,6 +64,7 @@ layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 80.0
+grow_horizontal = 2
 min_value = 1.0
 max_value = 3.0
 step = 0.01

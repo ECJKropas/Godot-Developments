@@ -12,6 +12,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_n8fjo")
 
+[node name="PlaceHolder" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
 [node name="H" type="HBoxContainer" parent="."]
 layout_mode = 0
 offset_right = 48.0
