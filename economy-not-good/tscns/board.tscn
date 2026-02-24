@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6fg5j2j7cfan"]
+
+[ext_resource type="Script" uid="uid://vnb24own005c" path="res://tscns/board.gd" id="1_aoaef"]
+
+[node name="Board" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_aoaef")
+
+[node name="H" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -72.0
+offset_top = -72.0
+offset_right = 72.0
+offset_bottom = 72.0
+alignment = 1
+
+[node name="V0" type="VBoxContainer" parent="H"]
+layout_mode = 2
+alignment = 1
+
+[node name="V1" type="VBoxContainer" parent="H"]
+layout_mode = 2
+alignment = 1
+
+[node name="V2" type="VBoxContainer" parent="H"]
+layout_mode = 2
+alignment = 1
