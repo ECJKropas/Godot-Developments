@@ -1,15 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6fg5j2j7cfan"]
+[gd_scene load_steps=4 format=3 uid="uid://b6fg5j2j7cfan"]
 
 [ext_resource type="Script" uid="uid://vnb24own005c" path="res://tscns/board.gd" id="1_aoaef"]
+[ext_resource type="Texture2D" uid="uid://bp0og1ol0vmqs" path="res://assets/eel_sushi.png" id="2_1rvxx"]
+[ext_resource type="Texture2D" uid="uid://dta51k6xt0x0a" path="res://assets/red_smile_face.png" id="3_j6x1o"]
 
 [node name="Board" type="Control"]
+custom_minimum_size = Vector2(188, 188)
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
+offset_left = -188.0
+offset_top = -188.0
+scale = Vector2(2, 2)
 script = ExtResource("1_aoaef")
+textures = Array[Texture2D]([ExtResource("2_1rvxx"), ExtResource("3_j6x1o")])
 
 [node name="H" type="HBoxContainer" parent="."]
 layout_mode = 0

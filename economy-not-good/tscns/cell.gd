@@ -2,15 +2,15 @@ extends Control
 
 @export var disabled: bool = false
 @export var occupied: int = -1  # Defaut(No occupy) set as -1
-@export var textures: Array[Texture2D]
 
+# The following are the variables that need to be synchronized with the root node.
+var textures: Array[Texture2D]
+var current_role: int = 0
 var vision_role: int = -1  # This variable represents the role corresponding to the current perspective and is obtained in real time from the root node.
 
 signal set_cell(describe: Dictionary)
 
 var select_pic: Array[Texture2D]
-
-var current_role: int = 0
 
 @onready var TextureB: TextureButton = $TextureButton
 
@@ -57,8 +57,9 @@ func reset_texture_button_textures(new_texture: Texture2D):
 	TextureB.texture_disabled = get_grayscale_texture(new_texture)
 
 
-# This function is used to get the current role and vision role from the root node.
+# This function is used to get variables from the root node.
 func get_data_from_root():
+	textures = get_tree().current_scene.textures
 	current_role = get_tree().current_scene.current_role
 	vision_role = get_tree().current_scene.vision_role
 
@@ -76,9 +77,6 @@ func _ready() -> void:
 
 	reset_texture_button_textures(empty_texture)
 
-
-func set_textures(t_from_fa: Array[Texture2D]):
-	self.textures = t_from_fa
 
 
 func set_as(role: int = -1, ignore_warning: bool = false):

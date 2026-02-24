@@ -9,11 +9,14 @@ const Cell: PackedScene = preload("res://tscns/cell.tscn")
 
 var cells: Array[Array]
 
+# The following are the variables that need to be synchronized with the root node.
+var textures: Array[Texture2D]
 var current_role: int = 0
+var vision_role: int = -1  # This variable represents the role corresponding to the current perspective and is obtained in real time from the root node.
 
-var vision_role: int = 0
 
 @onready var H: HBoxContainer = $H
+@onready var WinnerDisplay: TextureRect = $WinnerDisplay
 
 signal tic_set(description: Dictionary)
 
@@ -55,6 +58,12 @@ func _ready() -> void:
 	self.custom_minimum_size = H.size
 	self.position = -H.size / 2
 
+# This function is used to get variables from the root node.
+func get_data_from_root():
+	textures = get_tree().current_scene.textures
+	current_role = get_tree().current_scene.current_role
+	vision_role = get_tree().current_scene.vision_role
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -77,12 +86,14 @@ func emit_sig(d: Dictionary):
 	})
 
 func set_cell(cell_pos: Vector2,role: int = -1, ignore_warning: bool = false):
+	get_data_from_root()
 	cells[cell_pos.x][cell_pos.y].set_as(role, ignore_warning)
 
 func get_cell_description(cell_pos: Vector2) -> Dictionary:
 	return cells[cell_pos.x][cell_pos.y].get_describe()
 
 func get_describe() -> Dictionary:
+	get_data_from_root()
 	recaculate_winner()
 	var res: Dictionary = {
 		"name": self.name,
@@ -122,3 +133,82 @@ func set_disabled(disable_or_not: bool = true):
 func recaculate_winner(force_recalculate: bool = false):
 	if not force_recalculate and winner_determined and winner_role != -1:
 		return
+	
+	winner_determined = true
+	winner_role = -1
+	
+	var winners = []
+	
+	# 检查行
+	for row in range(3):
+		var first_cell = cells[row][0].occupied
+		if first_cell != -1:
+			var count = 1
+			for col in range(1, 3):
+				if cells[row][col].occupied == first_cell:
+					count += 1
+			if count == 3:
+				winners.append(first_cell)
+	
+	# 检查列
+	for col in range(3):
+		var first_cell = cells[0][col].occupied
+		if first_cell != -1:
+			var count = 1
+			for row in range(1, 3):
+				if cells[row][col].occupied == first_cell:
+					count += 1
+			if count == 3:
+				winners.append(first_cell)
+	
+	# 检查主对角线
+	var first_cell = cells[0][0].occupied
+	if first_cell != -1:
+		var count = 1
+		for i in range(1, 3):
+			if cells[i][i].occupied == first_cell:
+				count += 1
+		if count == 3:
+			winners.append(first_cell)
+	
+	# 检查副对角线
+	first_cell = cells[0][2].occupied
+	if first_cell != -1:
+		var count = 1
+		for i in range(1, 3):
+			if cells[i][2-i].occupied == first_cell:
+				count += 1
+		if count == 3:
+			winners.append(first_cell)
+	
+	# 处理获胜者
+	if winners.size() == 0:
+		winner_role = -1
+		winner_determined = false
+	elif winners.size() == 1:
+		winner_role = winners[0]
+	else:
+		# 多个玩家获胜，计算谁的子多
+		var player_counts = {}
+		for row in range(3):
+			for col in range(3):
+				var cell_value = cells[row][col].occupied
+				if cell_value != -1:
+					if cell_value in player_counts:
+						player_counts[cell_value] += 1
+					else:
+						player_counts[cell_value] = 1
+		
+		var max_count = 0
+		var max_player = -1
+		for player in winners:
+			if player in player_counts and player_counts[player] > max_count:
+				max_count = player_counts[player]
+				max_player = player
+		
+		winner_role = max_player
+	
+	if winner_determined:
+		get_data_from_root()
+		WinnerDisplay.texture = textures[winner_role]
+	

@@ -29,3 +29,11 @@ alignment = 1
 [node name="V2" type="VBoxContainer" parent="H"]
 layout_mode = 2
 alignment = 1
+
+[node name="WinnerDisplay" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 0
+offset_right = 16.0
+offset_bottom = 16.0
+scale = Vector2(3.5, 3.5)
+mouse_filter = 2
