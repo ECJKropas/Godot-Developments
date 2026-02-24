@@ -2,8 +2,6 @@ extends Control
 
 const TicTacToe: PackedScene = preload("res://tscns/tic_tac_toe.tscn")
 
-@export var id: Vector2i = Vector2i(0, 0)
-
 var boards: Array[Array]
 
 var current_role: int = 0
@@ -35,9 +33,6 @@ func _ready() -> void:
 			new_board.tic_set.connect(emit_sig)
 			boards[hor].append(new_board)
 
-	H.size = Vector2(3 * 48, 3 * 48)  # 3 times larger than individual tic-tac-toe
-	H.custom_minimum_size = H.size
-	H.position = -Vector2.ONE * 3 * 24  # Center the grid
 	for V: VBoxContainer in H.get_children():
 		var V_name: String = str(V.name)
 		var hor: int = int(V_name[len(V_name) - 1])
@@ -45,6 +40,18 @@ func _ready() -> void:
 			V.add_child(current_board)
 		V.queue_sort()
 	H.queue_sort()
+
+	# The following process of getting size should be deferred
+	# So just wait for the next frame
+	await get_tree().process_frame
+	
+	# Now the size should be like (188.0, 188.0)
+	# print(H.size)
+	self.size = H.size
+	self.custom_minimum_size = H.size
+	self.position = -H.size / 2
+
+	print(get_describe())
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -76,24 +83,21 @@ func get_board_cell_description(board_pos: Vector2, cell_pos: Vector2) -> Dictio
 	return boards[board_pos.x][board_pos.y].get_cell_description(cell_pos)
 
 func get_board_description(board_pos: Vector2) -> Dictionary:
-	return boards[board_pos.x][board_pos.y].describe()
+	return boards[board_pos.x][board_pos.y].get_describe()
 
-func describe() -> Dictionary:
+func get_describe() -> Dictionary:
 	var res: Dictionary = {
 		"name": self.name,
-		"id": id,
 		"boards": [],
 	}
 	for hor in range(3):
 		res["boards"].append([])
 		for ver in range(3):
-			res["boards"][hor].append(boards[hor][ver].describe())
+			res["boards"][hor].append(boards[hor][ver].get_describe())
 	return res
 
-func set_as_describe(describe: Dictionary):
-	if "id" in describe:
-		id = describe["id"]
-	if "boards" in describe:
+func set_as_describe(description: Dictionary):
+	if "boards" in description:
 		for hor in range(3):
 			for ver in range(3):
-				boards[hor][ver].set_as_describe(describe["boards"][hor][ver])
+				boards[hor][ver].set_as_describe(description["boards"][hor][ver])

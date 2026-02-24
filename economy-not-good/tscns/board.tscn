@@ -13,10 +13,8 @@ script = ExtResource("1_aoaef")
 
 [node name="H" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_left = -72.0
-offset_top = -72.0
-offset_right = 72.0
-offset_bottom = 72.0
+offset_right = 40.0
+offset_bottom = 40.0
 alignment = 1
 
 [node name="V0" type="VBoxContainer" parent="H"]
